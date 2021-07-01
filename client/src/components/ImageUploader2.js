@@ -12,12 +12,14 @@ import "filepond/dist/filepond.min.css";
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+import { Button, Form, Input } from "semantic-ui-react";
 
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
-function FilePondAddOnClick() {
+function ImageUploader2() {
   const [files, setFiles] = useState([]);
+  const [name, setName] = useState('');
 
   // I could automaticaly her do the axios to add the image to database
   const handlePhotoUploaded = (files) => {
@@ -25,21 +27,18 @@ function FilePondAddOnClick() {
     files.forEach((f) => {
       console.log(f.file);
     });
-    alert("called");
     // this is getting called twice
     // when I upload a photo
   };
 
   // I could wait until user click a button
   const handleClick = async () => {
-    // console.log(files);
-    // files.forEach((f) => {
-    //   console.log(f.file);
-    // });
+
   try{
     let data = new FormData()
     data.append('file', files[0].file)
-    let res = await axios.post('/api/images/upload1', data)
+    data.append('name1', name)
+    let res = await axios.post(`/api/images/upload2?name2=${name}`, data)
     console.log(res.data)
   } catch(err){
     alert(err)
@@ -50,8 +49,13 @@ function FilePondAddOnClick() {
      
   };
   return (
-    <div className="App">
-      <input />
+    <div className="App" style={{margin:'20px'}}>
+      <Form>
+          <Input 
+            value={name} 
+            label='name' 
+            onChange={(e)=>{setName(e.target.value)}}
+            />
       <FilePond
         files={files}
         allowReorder={true}
@@ -60,12 +64,13 @@ function FilePondAddOnClick() {
         // onupdatefiles={handlePhotoUploaded}
         labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
       />
+      <Button onClick={handleClick}>Add to Database</Button>
+      </Form>
 
-      <button onClick={handleClick}>Add to Database</button>
     </div>
   );
 }
 
-export default FilePondAddOnClick
+export default ImageUploader2
 
 
