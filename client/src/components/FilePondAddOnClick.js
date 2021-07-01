@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 // Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond";
+import axios from 'axios'
 
 // Import FilePond styles
 import "filepond/dist/filepond.min.css";
@@ -30,11 +31,23 @@ function FilePondAddOnClick() {
   };
 
   // I could wait until user click a button
-  const handleClick = () => {
-    console.log(files);
-    files.forEach((f) => {
-      console.log(f.file);
-    });
+  const handleClick = async () => {
+    // console.log(files);
+    // files.forEach((f) => {
+    //   console.log(f.file);
+    // });
+  try{
+    let data = new FormData()
+    data.append('fileYO', files[0].file)
+    let res = await axios.post('/api/images/upload1', data)
+    console.log(res.data)
+  } catch(err){
+    alert(err)
+    console.log(err)
+    console.log(err.response)
+  }
+
+     
   };
   return (
     <div className="App">
