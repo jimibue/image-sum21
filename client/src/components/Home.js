@@ -1,5 +1,12 @@
 import React from "react";
+import FilePondAddOnClick from "./FilePondAddOnClick";
 
-const Home = () => <div>Home</div>;
+const Home = () => {
+    return (
+        <>
+           <FilePondAddOnClick />
+        </>
+    )
+}
 
 export default Home;
